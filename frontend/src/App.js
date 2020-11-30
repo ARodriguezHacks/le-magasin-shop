@@ -1,10 +1,22 @@
 import React from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import HomeScreen from "./screens/HomeScreen";
+import { Grid } from "@material-ui/core";
 
 const App = () => {
   return (
-    <>
-      <h1>Welcome to Gamer Shop</h1>
-    </>
+    <Grid container>
+      <Grid item xs={12}>
+        <Header />
+      </Grid>
+      <Grid item xs={12}>
+        <HomeScreen />
+      </Grid>
+      <Grid item xs={12}>
+        <Footer />
+      </Grid>
+    </Grid>
   );
 };
 
