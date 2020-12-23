@@ -1,4 +1,5 @@
 import React from "react";
+import Rating from "../components/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, CardContent, Typography } from "@material-ui/core";
 
@@ -9,7 +10,6 @@ const useStyles = makeStyles({
 });
 
 const Product = ({ product }) => {
-  console.log(product);
   const classes = useStyles();
   return (
     <Card>
@@ -20,7 +20,16 @@ const Product = ({ product }) => {
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {product.description}
+          {product.name}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="div">
+          <Rating
+            value={product.rating}
+            text={`${product.numReviews} reviews`}
+          />
+        </Typography>
+        <Typography variant="h5" color="secondary">
+          ${product.price}
         </Typography>
       </CardContent>
     </Card>
