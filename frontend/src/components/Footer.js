@@ -1,20 +1,43 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
 
+const useStyles = makeStyles({
+  grow: {
+    flexGrow: 1,
+
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "25px",
+    },
+  },
+
+  nav: {
+    backgroundColor: "#fff",
+    padding: "1rem",
+    "& *": {
+      margin: "0 4px",
+    },
+  },
+});
+
 const Footer = () => {
+  const classes = useStyles();
   return (
-    <footer style={{ position: "relative", bottom: 0 }}>
-      <Grid container>
-        <Grid item xs={12}>
-          <AppBar position="static">
-            <Toolbar>
-              <Typography variant="h5" align="center">
-                Footer
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </Grid>
-      </Grid>
+    <footer
+      style={{
+        position: "relative",
+        bottom: 0,
+        maxWidth: "100%",
+        width: "100%",
+      }}
+    >
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h5" align="center">
+            Footer
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </footer>
   );
 };

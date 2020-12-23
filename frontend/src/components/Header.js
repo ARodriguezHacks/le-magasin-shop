@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Button, TextField } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -23,16 +23,16 @@ const useStyles = makeStyles({
 const Header = () => {
   const classes = useStyles();
   return (
-    <AppBar position="static" className={classes.nav}>
-      <Toolbar>
-        <Button>Logo</Button>
-        <TextField label="Search" variant="outlined" className={classes.grow} />
-        <Button>Sign Up</Button>
-        <Button>Login</Button>
-        <Button>Cart</Button>
-        <Button>Login</Button>
-      </Toolbar>
-    </AppBar>
+    <Grid item>
+      <AppBar position="static" className={classes.nav}>
+        <Toolbar>
+          <Button>Logo</Button>
+          <Button>Sign Up</Button>
+          <Button>Cart</Button>
+          <Button>Cart</Button>
+        </Toolbar>
+      </AppBar>
+    </Grid>
   );
 };
 
