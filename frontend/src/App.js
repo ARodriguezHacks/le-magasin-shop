@@ -44,8 +44,8 @@ const App = () => {
     //       <Footer />
     //     </Grid> */}
     // </div>
-    <Grid container justify="center">
-      {/* <Header /> */}
+    <Grid container>
+      <Header />
       <HomeScreen />
     </Grid>
   );

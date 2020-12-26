@@ -23,15 +23,17 @@ const useStyles = makeStyles({
 const Header = () => {
   const classes = useStyles();
   return (
-    <Grid item>
-      <AppBar position="static" className={classes.nav}>
-        <Toolbar>
-          <Button>Logo</Button>
-          <Button>Sign Up</Button>
-          <Button>Cart</Button>
-          <Button>Cart</Button>
-        </Toolbar>
-      </AppBar>
+    <Grid container>
+      <Grid container item>
+        <AppBar position="static" className={classes.nav}>
+          <Toolbar>
+            <Button>Logo</Button>
+            <Button>Sign Up</Button>
+            <Button>Cart</Button>
+            <Button>Cart</Button>
+          </Toolbar>
+        </AppBar>
+      </Grid>
     </Grid>
   );
 };
