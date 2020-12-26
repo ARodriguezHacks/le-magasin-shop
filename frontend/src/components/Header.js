@@ -23,10 +23,10 @@ const useStyles = makeStyles({
 const Header = () => {
   const classes = useStyles();
   return (
-    <Grid container>
-      <Grid container item>
+    <Grid container justify="center">
+      <Grid container item justify="center">
         <AppBar position="static" className={classes.nav}>
-          <Toolbar>
+          <Toolbar style={{ justifyContent: "center" }}>
             <Button>Logo</Button>
             <Button>Sign Up</Button>
             <Button>Cart</Button>

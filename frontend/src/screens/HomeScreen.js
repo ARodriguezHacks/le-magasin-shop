@@ -6,16 +6,15 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    textAlign: "center",
+    maxWidth: "100%",
+    margin: "2rem 0",
   },
 });
 
 const HomeScreen = () => {
   const classes = useStyles();
   return (
-    // <main className={classes.root}>
-    //   <h1>Latest Products</h1>
-    <Grid container justify="center">
+    <Grid container spacing={2} className={classes.root}>
       {products.map((product) => (
         <Grid
           container
@@ -32,7 +31,6 @@ const HomeScreen = () => {
         </Grid>
       ))}
     </Grid>
-    // </main>
   );
 };
 
