@@ -4,7 +4,7 @@ import {
   Grid,
   AppBar,
   Toolbar,
-  Button,
+  Typography,
   TextField,
   Link,
 } from "@material-ui/core";
@@ -37,16 +37,16 @@ const Header = () => {
           <AppBar position="static" className={classes.nav}>
             <Toolbar style={{ justifyContent: "center" }}>
               <Link component={RouterLink} to="/">
-                Logo
+                <Typography>Logo</Typography>
               </Link>
               <Link component={RouterLink} to="/">
-                <Button>Sign Up</Button>
+                <Typography>Sign Up</Typography>
               </Link>
               <Link component={RouterLink} to="/">
-                <Button>Cart</Button>
+                <Typography>Cart</Typography>
               </Link>
               <Link component={RouterLink} to="/">
-                <Button>Cart</Button>
+                <Typography>Cart</Typography>
               </Link>
             </Toolbar>
           </AppBar>

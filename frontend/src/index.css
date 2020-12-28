@@ -10,3 +10,7 @@ body {
 *:after {
   box-sizing: inherit;
 }
+
+main {
+  min-height: calc(100vh - 64px - 96px);
+}
