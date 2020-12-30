@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -15,7 +15,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -35,7 +35,16 @@ const useStyles = makeStyles({
 
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await axios.get(`/api/products/${match.params.id}`);
+
+      setProduct(res.data);
+    };
+    fetchProduct();
+  }, []);
 
   return (
     <Grid container className={classes.root}>

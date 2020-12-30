@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   grow: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 });
 
 const Footer = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
     <footer
       style={{
