@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
-import { Container, Grid } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 
 const App = () => {
   return (
@@ -12,10 +12,8 @@ const App = () => {
       <Header />
       <Container>
         <main>
-          <Grid container justify="center">
-            <Route exact path="/" component={HomeScreen} />
-            <Route path="/product/:id" component={ProductScreen} />
-          </Grid>
+          <Route exact path="/" component={HomeScreen} />
+          <Route path="/product/:id" component={ProductScreen} />
         </main>
       </Container>
       <Footer />

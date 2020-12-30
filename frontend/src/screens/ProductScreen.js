@@ -56,8 +56,10 @@ const ProductScreen = ({ match }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <CardContent className={classes.content}>
-            <Typography variant="h5">{product.name}</Typography>
-            <Typography>
+            <Typography variant="h6" color="textSecondary">
+              {product.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="div">
               <Rating
                 value={product.rating}
                 text={`${product.numReviews} reviews`}

@@ -8,23 +8,31 @@ const useStyles = makeStyles({
   media: {
     height: 310,
   },
+  container: {
+    padding: "1rem",
+  },
+  content: {
+    "& *": {
+      margin: "0.25rem 0",
+    },
+  },
 });
 
 const Product = ({ product }) => {
   const classes = useStyles();
   return (
-    <Card>
+    <Card className={classes.container}>
       <Link to={`/product/${product._id}`}>
         <CardMedia
+          component="img"
           className={classes.media}
           image={product.image}
           title={product.title}
         />
       </Link>
-
-      <CardContent>
+      <CardContent className={classes.content}>
         <Link to={`/product/${product._id}`}>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="h6" color="textSecondary">
             {product.name}
           </Typography>
         </Link>
@@ -34,7 +42,7 @@ const Product = ({ product }) => {
             text={`${product.numReviews} reviews`}
           />
         </Typography>
-        <Typography variant="h5" color="secondary">
+        <Typography variant="h6" color="secondary">
           ${product.price}
         </Typography>
       </CardContent>

@@ -7,7 +7,6 @@ import StarHalfIcon from "@material-ui/icons/StarHalf";
 const useStyles = makeStyles({
   rating: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
 
     "& :nth-last-child(2)": {
