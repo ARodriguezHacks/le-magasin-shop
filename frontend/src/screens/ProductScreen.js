@@ -40,11 +40,11 @@ const ProductScreen = ({ match }) => {
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await axios.get(`/api/products/${match.params.id}`);
-
+      console.log(res);
       setProduct(res.data);
     };
     fetchProduct();
-  }, []);
+  }, [match]);
 
   return (
     <Grid container className={classes.root}>
