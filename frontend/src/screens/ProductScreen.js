@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetails } from "../actions/productActions";
 import {
   Grid,
   Table,
@@ -15,8 +17,9 @@ import {
   Paper,
 } from "@material-ui/core";
 import Rating from "../components/Rating";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 const useStyles = makeStyles({
   root: {
@@ -35,16 +38,13 @@ const useStyles = makeStyles({
 
 const ProductScreen = ({ match }) => {
   const classes = useStyles();
-  const [product, setProduct] = useState([]);
+  const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const res = await axios.get(`/api/products/${match.params.id}`);
-      console.log(res);
-      setProduct(res.data);
-    };
-    fetchProduct();
-  }, [match]);
+    dispatch(listProductDetails(match.params.id));
+  }, [dispatch, match]);
 
   return (
     <Grid container className={classes.root}>
@@ -55,56 +55,62 @@ const ProductScreen = ({ match }) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={2} className={classes.root} justify="center">
-        <Grid item xs={12} sm={6} md={3}>
-          <CardMedia
-            className={classes.media}
-            image={product.image}
-            component="img"
-          />
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message severity="error">{error}</Message>
+      ) : (
+        <Grid container spacing={2} className={classes.root} justify="center">
+          <Grid item xs={12} sm={6} md={3}>
+            <CardMedia
+              className={classes.media}
+              image={product.image}
+              component="img"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <CardContent className={classes.content}>
+              <Typography variant="h6" color="textSecondary">
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="div">
+                <Rating
+                  value={product.rating}
+                  text={`${product.numReviews} reviews`}
+                />
+              </Typography>
+              <Typography>{product.description}</Typography>
+            </CardContent>
+          </Grid>
+          <Grid item xs={12} sm={10} md={3}>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Price:</TableCell>
+                    <TableCell>${product.price}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Status:</TableCell>
+                    <TableCell>
+                      {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+                <TableFooter>
+                  <TableRow variant="footer">
+                    <TableCell>
+                      <Button variant="contained" color="primary">
+                        Add to Cart
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </TableContainer>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <CardContent className={classes.content}>
-            <Typography variant="h6" color="textSecondary">
-              {product.name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="div">
-              <Rating
-                value={product.rating}
-                text={`${product.numReviews} reviews`}
-              />
-            </Typography>
-            <Typography>{product.description}</Typography>
-          </CardContent>
-        </Grid>
-        <Grid item xs={12} sm={10} md={3}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Price:</TableCell>
-                  <TableCell>${product.price}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Status:</TableCell>
-                  <TableCell>
-                    {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-              <TableFooter>
-                <TableRow variant="footer">
-                  <TableCell>
-                    <Button variant="contained" color="primary">
-                      Add to Cart
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-        </Grid>
-      </Grid>
+      )}
     </Grid>
   );
 };
