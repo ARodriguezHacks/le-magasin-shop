@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails } from "../actions/productActions";
@@ -15,6 +15,10 @@ import {
   CardContent,
   Typography,
   Paper,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
 } from "@material-ui/core";
 import Rating from "../components/Rating";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,7 +40,8 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ history, match }) => {
+  const [qty, setQty] = useState(0);
   const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
@@ -45,6 +50,10 @@ const ProductScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
 
   return (
     <Grid container className={classes.root}>
@@ -90,17 +99,46 @@ const ProductScreen = ({ match }) => {
                     <TableCell>Price:</TableCell>
                     <TableCell>${product.price}</TableCell>
                   </TableRow>
+
                   <TableRow>
                     <TableCell>Status:</TableCell>
                     <TableCell>
                       {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
                     </TableCell>
                   </TableRow>
+
+                  {product.countInStock > 0 && (
+                    <TableRow>
+                      <TableCell>Qty</TableCell>
+                      <TableCell>
+                        <FormControl>
+                          <InputLabel id="qty">{qty}</InputLabel>
+                          <Select
+                            labelId="qty"
+                            value={qty}
+                            onChange={(e) => setQty(e.target.value)}
+                          >
+                            {[...Array(product.countInStock).keys()].map(
+                              (x) => (
+                                <MenuItem key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </MenuItem>
+                              )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
                 <TableFooter>
                   <TableRow variant="footer">
                     <TableCell>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={addToCartHandler}
+                      >
                         Add to Cart
                       </Button>
                     </TableCell>
