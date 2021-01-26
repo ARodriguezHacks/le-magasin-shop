@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 });
 
 const ProductScreen = ({ history, match }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
   const classes = useStyles();
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
@@ -112,7 +112,7 @@ const ProductScreen = ({ history, match }) => {
                       <TableCell>Qty</TableCell>
                       <TableCell>
                         <FormControl>
-                          <InputLabel id="qty">{qty}</InputLabel>
+                          <InputLabel id="qty">Qty</InputLabel>
                           <Select
                             labelId="qty"
                             value={qty}
