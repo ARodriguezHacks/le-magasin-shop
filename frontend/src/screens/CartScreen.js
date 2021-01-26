@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Message from "../components/Message";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const useStyles = makeStyles({
   media: {
@@ -41,7 +41,7 @@ function CartScreen({ match, location, history }) {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    console.log("remove");
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
