@@ -12,6 +12,7 @@ connectDB();
 const app = express();
 
 app.get("/", (req, res) => {
+  console.log(res);
   res.send("API is running...");
 });
 
