@@ -38,8 +38,8 @@ const Header = () => {
               <Link component={RouterLink} to="/">
                 <Typography>Cart</Typography>
               </Link>
-              <Link component={RouterLink} to="/">
-                <Typography>Cart</Typography>
+              <Link component={RouterLink} to="/login">
+                <Typography>Log In</Typography>
               </Link>
             </Toolbar>
           </AppBar>
