@@ -1,7 +1,9 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Grid, AppBar, Toolbar, Typography, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { logout } from "../actions/userActions";
 
 const useStyles = makeStyles({
   grow: {
@@ -22,7 +24,14 @@ const useStyles = makeStyles({
 });
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const classes = useStyles();
+
+  // const logoutHandler = () => {
+  //   dispatch(logout())
+  // }
   return (
     <header>
       <Grid container justify="center">
@@ -32,15 +41,18 @@ const Header = () => {
               <Link component={RouterLink} to="/">
                 <Typography>Logo</Typography>
               </Link>
-              <Link component={RouterLink} to="/">
-                <Typography>Sign Up</Typography>
-              </Link>
-              <Link component={RouterLink} to="/">
+              <Link component={RouterLink} to="/cart">
                 <Typography>Cart</Typography>
               </Link>
-              <Link component={RouterLink} to="/login">
-                <Typography>Log In</Typography>
-              </Link>
+              {userInfo ? (
+                <Link component={RouterLink} to="/login">
+                  <Typography>{userInfo.name}</Typography>
+                </Link>
+              ) : (
+                <Link component={RouterLink} to="/login">
+                  <Typography>Log In</Typography>
+                </Link>
+              )}
             </Toolbar>
           </AppBar>
         </Grid>
