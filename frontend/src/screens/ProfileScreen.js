@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 
 const useStyles = makeStyles({
   container: {
@@ -40,6 +40,9 @@ const ProfileScreen = ({ location }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -58,7 +61,7 @@ const ProfileScreen = ({ location }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      //DISPATCH UPDATE PROFILE
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
@@ -66,8 +69,9 @@ const ProfileScreen = ({ location }) => {
     <Grid container>
       <Grid item md={3}>
         <h2>User Profile</h2>
-        {message && <Message>{message}</Message>}
-        {error && <Message>{error}</Message>}
+        {message && <Message severity="warning">{message}</Message>}
+        {error && <Message severity="warning">{error}</Message>}
+        {success && <Message>Profile Updated</Message>}
         {loading && <Loader />}
         <form onSubmit={submitHandler}>
           <Paper className={classes.container}>
