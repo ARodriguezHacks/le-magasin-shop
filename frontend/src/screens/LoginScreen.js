@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -24,7 +24,8 @@ const useStyles = makeStyles({
   },
 });
 
-const LoginScreen = ({ location, history }) => {
+const LoginScreen = ({ location }) => {
+  let history = useHistory();
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,7 +83,7 @@ const LoginScreen = ({ location, history }) => {
               />
             </FormControl>
           </FormGroup>
-          <Button variant="contained">Sign In</Button>
+          <Button type="submit">Sign In</Button>
           <Grid container>
             <Grid item>
               New Customer?

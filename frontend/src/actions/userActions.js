@@ -6,6 +6,7 @@ import {
   USER_LOGOUT,
 } from "../constants/userConstants";
 
+// Redux-Thunk
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -26,7 +27,7 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      paylod: data,
+      payload: data,
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));

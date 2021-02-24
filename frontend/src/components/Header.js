@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { Grid, AppBar, Toolbar, Typography, Link } from "@material-ui/core";
+import {
+  Grid,
+  AppBar,
+  Toolbar,
+  Typography,
+  Link,
+  Paper,
+  MenuItem,
+  MenuList,
+  Popper,
+  Button,
+  Grow,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { logout } from "../actions/userActions";
 
@@ -24,14 +36,21 @@ const useStyles = makeStyles({
 });
 
 const Header = () => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  const classes = useStyles();
 
-  // const logoutHandler = () => {
-  //   dispatch(logout())
-  // }
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   return (
     <header>
       <Grid container justify="center">
@@ -45,9 +64,48 @@ const Header = () => {
                 <Typography>Cart</Typography>
               </Link>
               {userInfo ? (
-                <Link component={RouterLink} to="/login">
-                  <Typography>{userInfo.name}</Typography>
-                </Link>
+                <>
+                  <Button
+                    ref={anchorRef}
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    {userInfo.name}
+                  </Button>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <MenuList autoFocusItem={open} id="menu-list-grow">
+                            <MenuItem>
+                              <Link component={RouterLink} to="/profile">
+                                <Typography>Profile</Typography>
+                              </Link>
+                            </MenuItem>
+                            <MenuItem onClick={logoutHandler}>
+                              <Typography>Logout</Typography>
+                            </MenuItem>
+                          </MenuList>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </>
               ) : (
                 <Link component={RouterLink} to="/login">
                   <Typography>Log In</Typography>
