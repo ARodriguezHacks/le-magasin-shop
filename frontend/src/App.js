@@ -8,6 +8,7 @@ import ProductScreen from "./screens/ProductScreen";
 import { Container } from "@material-ui/core";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
+          <Route path="/profile" component={ProfileScreen} />
         </main>
       </Container>
       <Footer />
