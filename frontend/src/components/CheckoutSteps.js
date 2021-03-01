@@ -1,29 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Stepper, Step, StepLabel } from "@material-ui/core";
 
+function getSteps() {
+  return ["Sign In", "Shipping", "Payment", "Place Order"];
+}
+
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
+  const [activeStep, setActiveStep] = useState(1);
+  const steps = getSteps();
+
   return (
-    <nav>
-      <ul>
-        <li>
-          {step1 ? <Link to="/login">Sign In</Link> : <span>Sign In</span>}
-        </li>
-        <li>
-          {step2 ? <Link to="/shipping">Shipping</Link> : <span>Shipping</span>}
-        </li>
-        <li>
-          {step3 ? <Link to="/payment">Payment</Link> : <span>Payment</span>}
-        </li>
-        <li>
-          {step4 ? (
-            <Link to="/placeorder">Place Order</Link>
-          ) : (
-            <span>Place Order</span>
-          )}
-        </li>
-      </ul>
-    </nav>
+    <Stepper activeStep={activeStep}>
+      {steps.map((label) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+      {/* {step1 ? <Link to="/login">Sign In</Link> : <span>Sign In</span>} */}
+    </Stepper>
   );
 };
 
