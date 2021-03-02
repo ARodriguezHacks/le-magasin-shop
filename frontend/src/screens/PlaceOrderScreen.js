@@ -10,8 +10,8 @@ import {
   ListItem,
   ListItemText,
   Card,
-  CardMedia,
   CardContent,
+  CardMedia,
   Typography,
 } from "@material-ui/core";
 
@@ -66,23 +66,40 @@ const PlaceOrderScreen = () => {
         <Grid item md={8}>
           <List>
             <ListItem>
-              <h2>Shipping</h2>
-              <p>
+              <ListItemText>
+                <Typography variant="h4">Shipping</Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem divider>
+              <ListItemText>
                 <strong>Address:</strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city}
                 {cart.shippingAddress.postalCode} {cart.shippingAddress.country}
-              </p>
+              </ListItemText>
             </ListItem>
+          </List>
 
+          <List>
             <ListItem>
-              <h2>Payment Method</h2>
-
-              <strong>Method:</strong>
-              {cart.paymentMethod}
+              <ListItemText>
+                <Typography variant="h4">Payment Method</Typography>
+              </ListItemText>
             </ListItem>
+            <ListItem divider>
+              <ListItemText>
+                <strong>Method:</strong>
+                {cart.paymentMethod}
+              </ListItemText>
+            </ListItem>
+          </List>
 
+          <List>
             <ListItem>
-              <h2>Order Items</h2>
+              <ListItemText>
+                <Typography variant="h4">Order Items</Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem divider>
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
@@ -90,8 +107,14 @@ const PlaceOrderScreen = () => {
                   {cart.cartItems.map((item, index) => (
                     <ListItem key={index}>
                       <Grid container>
-                        <Grid container item xs={5} sm={3} md={1}>
-                          <img src={item.image} alt={item.name} />
+                        <Grid container item md={1}>
+                          <Card>
+                            <CardMedia
+                              component="img"
+                              image={item.image}
+                              alt={item.name}
+                            />
+                          </Card>
                         </Grid>
                         <Grid item md={1}>
                           <Link to={`/product/${item.product}`} />
@@ -113,6 +136,7 @@ const PlaceOrderScreen = () => {
             </ListItem>
           </List>
         </Grid>
+
         <Grid item md={4}>
           <Card>
             <CardContent></CardContent>

@@ -1,24 +1,24 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  grow: {
-    flexGrow: 1,
+// const useStyles = makeStyles({
+//   grow: {
+//     flexGrow: 1,
 
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "25px",
-    },
-  },
+//     "& .MuiOutlinedInput-root": {
+//       borderRadius: "25px",
+//     },
+//   },
 
-  nav: {
-    backgroundColor: "#fff",
-    padding: "1rem",
-    "& *": {
-      margin: "0 4px",
-    },
-  },
-});
+//   nav: {
+//     backgroundColor: "#fff",
+//     padding: "1rem",
+//     "& *": {
+//       margin: "0 4px",
+//     },
+//   },
+// });
 
 const Footer = () => {
   // const classes = useStyles();

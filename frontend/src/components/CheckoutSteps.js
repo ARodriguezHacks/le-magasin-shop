@@ -1,24 +1,79 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
+import { Breadcrumbs, Typography } from "@material-ui/core";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { makeStyles } from "@material-ui/core/styles";
 
-function getSteps() {
-  return ["Sign In", "Shipping", "Payment", "Place Order"];
-}
+const useStyles = makeStyles({
+  space: {
+    "& .MuiBreadcrumbs-ol": {
+      justifyContent: "space-around",
+      maxWidth: "90%",
+      margin: "1em auto",
+    },
+    "& .MuiBreadcrumbs-li": {
+      textAlign: "center",
+    },
+  },
+});
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
-  const [activeStep, setActiveStep] = useState(1);
-  const steps = getSteps();
-
+  const classes = useStyles();
   return (
-    <Stepper activeStep={activeStep}>
-      {steps.map((label) => (
-        <Step key={label}>
-          <StepLabel>{label}</StepLabel>
-        </Step>
-      ))}
-      {/* {step1 ? <Link to="/login">Sign In</Link> : <span>Sign In</span>} */}
-    </Stepper>
+    <Breadcrumbs aria-label="breadcrumb" className={classes.space}>
+      <span>
+        {step1 ? (
+          <Link to="/login">
+            <CheckCircleIcon />
+            <Typography>Sign In</Typography>
+          </Link>
+        ) : (
+          <>
+            <CheckCircleIcon color="disabled" />
+            <Typography>Sign In</Typography>
+          </>
+        )}
+      </span>
+      <span>
+        {step2 ? (
+          <Link to="/shipping">
+            <CheckCircleIcon />
+            <Typography>Shipping</Typography>
+          </Link>
+        ) : (
+          <>
+            <CheckCircleIcon color="disabled" />
+            <Typography>Shipping</Typography>
+          </>
+        )}
+      </span>
+      <span>
+        {step3 ? (
+          <Link to="/payment">
+            <CheckCircleIcon />
+            <Typography>Payment</Typography>
+          </Link>
+        ) : (
+          <>
+            <CheckCircleIcon color="disabled" />
+            <Typography>Payment</Typography>
+          </>
+        )}
+      </span>
+      <span>
+        {step4 ? (
+          <Link to="/placeorder">
+            <CheckCircleIcon />
+            <Typography>Place Order</Typography>
+          </Link>
+        ) : (
+          <>
+            <CheckCircleIcon color="disabled" />
+            <Typography>Place Order</Typography>
+          </>
+        )}
+      </span>
+    </Breadcrumbs>
   );
 };
 
