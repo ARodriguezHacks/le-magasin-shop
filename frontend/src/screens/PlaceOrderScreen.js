@@ -13,6 +13,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Button,
 } from "@material-ui/core";
 
 const PlaceOrderScreen = () => {
@@ -62,19 +63,19 @@ const PlaceOrderScreen = () => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item md={8}>
           <List>
             <ListItem>
               <ListItemText>
-                <Typography variant="h4">Shipping</Typography>
+                <Typography variant="h5">Shipping</Typography>
               </ListItemText>
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                <strong>Address:</strong>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city}
-                {cart.shippingAddress.postalCode} {cart.shippingAddress.country}
+                <strong>Address:</strong> {cart.shippingAddress.address},{" "}
+                {cart.shippingAddress.city} {cart.shippingAddress.postalCode},{" "}
+                {cart.shippingAddress.country}
               </ListItemText>
             </ListItem>
           </List>
@@ -82,7 +83,7 @@ const PlaceOrderScreen = () => {
           <List>
             <ListItem>
               <ListItemText>
-                <Typography variant="h4">Payment Method</Typography>
+                <Typography variant="h5">Payment Method</Typography>
               </ListItemText>
             </ListItem>
             <ListItem divider>
@@ -96,16 +97,16 @@ const PlaceOrderScreen = () => {
           <List>
             <ListItem>
               <ListItemText>
-                <Typography variant="h4">Order Items</Typography>
+                <Typography variant="h5">Order Items</Typography>
               </ListItemText>
             </ListItem>
-            <ListItem divider>
+            <ListItem>
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
                 <List>
                   {cart.cartItems.map((item, index) => (
-                    <ListItem key={index}>
+                    <ListItem key={index} divider>
                       <Grid container>
                         <Grid container item md={1}>
                           <Card>
@@ -123,10 +124,7 @@ const PlaceOrderScreen = () => {
                           {item.qty} x ${item.price} = ${item.qty * item.price}
                         </Grid>
                         <Grid item md={4}>
-                          <Card>
-                            {item.qty} x ${item.price} = $
-                            {item.qty * item.price}
-                          </Card>
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
                         </Grid>
                       </Grid>
                     </ListItem>
@@ -139,7 +137,78 @@ const PlaceOrderScreen = () => {
 
         <Grid item md={4}>
           <Card>
-            <CardContent></CardContent>
+            <CardContent>
+              <List>
+                <ListItem divider>
+                  <ListItemText>
+                    <Typography variant="h5">Order Summary</Typography>
+                  </ListItemText>
+                </ListItem>
+
+                <ListItem divider>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <ListItemText>Items</ListItemText>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ListItemText>${cart.itemsPrice}</ListItemText>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+
+                <ListItem divider>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <ListItemText>Shipping</ListItemText>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ListItemText>${cart.shippingPrice}</ListItemText>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+
+                <ListItem divider>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <ListItemText>Tax</ListItemText>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ListItemText>${cart.taxPrice}</ListItemText>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+
+                <ListItem divider>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <ListItemText>Total</ListItemText>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ListItemText>${cart.totalPrice}</ListItemText>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+
+                <ListItem>
+                  {error && <Message severity="warning">{error}</Message>}
+                </ListItem>
+
+                <ListItem>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={cart.cartItems === 0}
+                        fullWidth
+                      >
+                        Place Order
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+              </List>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>
