@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
+import FormContainer from "../components/FormContainer";
 import { createOrder } from "../actions/orderActions";
 import {
   Grid,
@@ -42,8 +43,9 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (success) {
-      history.pushState(`/order/${order._id}`);
+      history.push(`/order/${order._id}`);
     }
+    // eslint-disable-next-line
   }, [history, success]);
 
   const placeOrderHandler = () => {
@@ -62,7 +64,9 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <CheckoutSteps step1 step2 step3 step4 />
+      <FormContainer>
+        <CheckoutSteps step1 step2 step3 step4 />
+      </FormContainer>
       <Grid container spacing={2}>
         <Grid item md={8}>
           <List>
@@ -201,6 +205,7 @@ const PlaceOrderScreen = () => {
                         color="primary"
                         disabled={cart.cartItems === 0}
                         fullWidth
+                        onClick={placeOrderHandler}
                       >
                         Place Order
                       </Button>
