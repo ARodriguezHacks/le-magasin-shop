@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
-import CheckoutSteps from "../components/CheckoutSteps";
-import FormContainer from "../components/FormContainer";
-import { createOrder } from "../actions/orderActions";
+import Loader from "../components/Loader";
+import { getOrderDetails } from "../actions/orderActions";
 import {
   Grid,
   List,
@@ -14,74 +13,67 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Button,
 } from "@material-ui/core";
 
-const PlaceOrderScreen = () => {
+const OrderScreen = ({ match }) => {
+  const orderId = match.params.id;
   const history = useHistory();
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
 
-  // Calculate prices
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
 
-  cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-  );
+  if (!loading) {
+    // Calculate prices
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    };
 
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
-  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
-  cart.totalPrice = (
-    Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
-    Number(cart.taxPrice)
-  ).toFixed(2);
-
-  const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
+    order.itemsPrice = addDecimals(
+      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    );
+  }
 
   useEffect(() => {
-    if (success) {
-      history.push(`/order/${order._id}`);
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId));
     }
-    // eslint-disable-next-line
-  }, [history, success]);
+  }, [order, orderId]);
 
-  const placeOrderHandler = () => {
-    dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      })
-    );
-  };
-
-  return (
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message severity="warning">{error}</Message>
+  ) : (
     <>
-      <FormContainer>
-        <CheckoutSteps step1 step2 step3 step4 />
-      </FormContainer>
+      <h1>Order {order._id}</h1>
+
       <Grid container spacing={2}>
         <Grid item md={8}>
           <List>
             <ListItem>
               <ListItemText>
                 <Typography variant="h5">Shipping</Typography>
+                <Typography>
+                  <strong>Name: </strong> {order.user.name}
+                </Typography>
+                <Typography>
+                  <strong>Email: </strong>
+                  <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                </Typography>
               </ListItemText>
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                <strong>Address:</strong> {cart.shippingAddress.address},{" "}
-                {cart.shippingAddress.city} {cart.shippingAddress.postalCode},{" "}
-                {cart.shippingAddress.country}
+                <strong>Address:</strong> {order.shippingAddress.address},{" "}
+                {order.shippingAddress.city} {order.shippingAddress.postalCode},{" "}
+                {order.shippingAddress.country}
               </ListItemText>
+              {order.isDelivered ? (
+                <Message>Paid on {order.deliveredAt}</Message>
+              ) : (
+                <Message severity="error">Not Delivered</Message>
+              )}
             </ListItem>
           </List>
 
@@ -93,8 +85,15 @@ const PlaceOrderScreen = () => {
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                <strong>Method:</strong>
-                {cart.paymentMethod}
+                <Typography>
+                  <strong>Method:</strong>
+                  {order.paymentMethod}
+                </Typography>
+                {order.isPaid ? (
+                  <Message>Paid on {order.paidAt}</Message>
+                ) : (
+                  <Message severity="error">Not Paid</Message>
+                )}
               </ListItemText>
             </ListItem>
           </List>
@@ -106,11 +105,11 @@ const PlaceOrderScreen = () => {
               </ListItemText>
             </ListItem>
             <ListItem>
-              {cart.cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+              {order.orderItems.length === 0 ? (
+                <Message>Order is empty</Message>
               ) : (
                 <List>
-                  {cart.cartItems.map((item, index) => (
+                  {order.orderItems.map((item, index) => (
                     <ListItem key={index} divider>
                       <Grid container>
                         <Grid container item md={1}>
@@ -156,7 +155,7 @@ const PlaceOrderScreen = () => {
                       <ListItemText>Items</ListItemText>
                     </Grid>
                     <Grid item xs={6}>
-                      <ListItemText>${cart.itemsPrice}</ListItemText>
+                      <ListItemText>${order.itemsPrice}</ListItemText>
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -167,7 +166,7 @@ const PlaceOrderScreen = () => {
                       <ListItemText>Shipping</ListItemText>
                     </Grid>
                     <Grid item xs={6}>
-                      <ListItemText>${cart.shippingPrice}</ListItemText>
+                      <ListItemText>${order.shippingPrice}</ListItemText>
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -178,7 +177,7 @@ const PlaceOrderScreen = () => {
                       <ListItemText>Tax</ListItemText>
                     </Grid>
                     <Grid item xs={6}>
-                      <ListItemText>${cart.taxPrice}</ListItemText>
+                      <ListItemText>${order.taxPrice}</ListItemText>
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -189,27 +188,7 @@ const PlaceOrderScreen = () => {
                       <ListItemText>Total</ListItemText>
                     </Grid>
                     <Grid item xs={6}>
-                      <ListItemText>${cart.totalPrice}</ListItemText>
-                    </Grid>
-                  </Grid>
-                </ListItem>
-
-                <ListItem>
-                  {error && <Message severity="warning">{error}</Message>}
-                </ListItem>
-
-                <ListItem>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        disabled={cart.cartItems === 0}
-                        fullWidth
-                        onClick={placeOrderHandler}
-                      >
-                        Place Order
-                      </Button>
+                      <ListItemText>${order.totalPrice}</ListItemText>
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -222,4 +201,4 @@ const PlaceOrderScreen = () => {
   );
 };
 
-export default PlaceOrderScreen;
+export default OrderScreen;
