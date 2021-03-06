@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -17,7 +17,6 @@ import {
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((state) => state.orderDetails);
@@ -38,7 +37,7 @@ const OrderScreen = ({ match }) => {
     if (!order || order._id !== orderId) {
       dispatch(getOrderDetails(orderId));
     }
-  }, [order, orderId]);
+  }, [dispatch, order, orderId]);
 
   return loading ? (
     <Loader />
@@ -65,15 +64,18 @@ const OrderScreen = ({ match }) => {
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                <strong>Address:</strong> {order.shippingAddress.address},{" "}
-                {order.shippingAddress.city} {order.shippingAddress.postalCode},{" "}
-                {order.shippingAddress.country}
+                <Typography>
+                  <strong>Address:</strong> {order.shippingAddress.address},{" "}
+                  {order.shippingAddress.city}{" "}
+                  {order.shippingAddress.postalCode},{" "}
+                  {order.shippingAddress.country}
+                </Typography>
+                {order.isDelivered ? (
+                  <Message>Paid on {order.deliveredAt}</Message>
+                ) : (
+                  <Message severity="error">Not Delivered</Message>
+                )}
               </ListItemText>
-              {order.isDelivered ? (
-                <Message>Paid on {order.deliveredAt}</Message>
-              ) : (
-                <Message severity="error">Not Delivered</Message>
-              )}
             </ListItem>
           </List>
 
@@ -86,7 +88,7 @@ const OrderScreen = ({ match }) => {
             <ListItem divider>
               <ListItemText>
                 <Typography>
-                  <strong>Method:</strong>
+                  <strong>Method: </strong>
                   {order.paymentMethod}
                 </Typography>
                 {order.isPaid ? (
