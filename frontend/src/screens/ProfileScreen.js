@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/Close";
 import {
   Grid,
   FormControl,
@@ -10,10 +11,18 @@ import {
   Button,
   FormGroup,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableFooter,
+  TableHead,
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
+import { listMyOrders } from "../actions/orderActions";
 
 const useStyles = makeStyles({
   container: {
@@ -43,12 +52,16 @@ const ProfileScreen = ({ location }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
+  const orderListMy = useSelector((state) => state.orderListMy);
+  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
       if (!user.name) {
         dispatch(getUserDetails("profile"));
+        dispatch(listMyOrders());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -66,7 +79,7 @@ const ProfileScreen = ({ location }) => {
   };
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item md={3}>
         <h2>User Profile</h2>
         {message && <Message severity="warning">{message}</Message>}
@@ -137,6 +150,54 @@ const ProfileScreen = ({ location }) => {
       </Grid>
       <Grid item md={9}>
         <h2>My Orders</h2>
+        {loadingOrders ? (
+          <Loader />
+        ) : errorOrders ? (
+          <Message severity="warning">{errorOrders}</Message>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>DATE</TableCell>
+                  <TableCell>TOTAL</TableCell>
+                  <TableCell>PAID</TableCell>
+                  <TableCell>DELIVERED</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order._id}>
+                    <TableCell>{order._id}</TableCell>
+                    <TableCell>{order.createdAt.substring(0, 10)}</TableCell>
+                    <TableCell>{order.totalPrice}</TableCell>
+                    <TableCell>
+                      {order.isPaid ? (
+                        order.paidAt.substring(0, 10)
+                      ) : (
+                        <CloseIcon color="error" />
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {order.isDelivered ? (
+                        order.deliveredAt.substring(0, 10)
+                      ) : (
+                        <CloseIcon color="error" />
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Link to={`/order/${order._id}`}>
+                        <Button>Details</Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Grid>
     </Grid>
   );
