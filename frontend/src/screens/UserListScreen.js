@@ -77,7 +77,7 @@ const UserListScreen = ({ history }) => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Link to={`/user/${user._id}/edit`}>
+                  <Link to={`/admin/user/${user._id}/edit`}>
                     <Button size="small">
                       <EditIcon />
                     </Button>
