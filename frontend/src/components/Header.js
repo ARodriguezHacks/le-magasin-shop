@@ -38,7 +38,9 @@ const useStyles = makeStyles({
 const Header = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const anchorRef = useRef(null);
+  const adminAnchorRef = useRef(null);
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -46,6 +48,10 @@ const Header = () => {
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleAdminToggle = () => {
+    setAdminOpen((prevOpen) => !prevOpen);
   };
 
   const logoutHandler = () => {
@@ -110,6 +116,63 @@ const Header = () => {
                 <Link component={RouterLink} to="/login">
                   <Typography>Log In</Typography>
                 </Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <>
+                  <Button
+                    ref={adminAnchorRef}
+                    aria-controls={adminOpen ? "admin-menu" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleAdminToggle}
+                  >
+                    Admin
+                  </Button>
+                  <Popper
+                    open={adminOpen}
+                    anchorEl={adminAnchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <MenuList autoFocusItem={adminOpen} id="admin-menu">
+                            <MenuItem>
+                              <Link component={RouterLink} to="/admin/userlist">
+                                <Typography>Users</Typography>
+                              </Link>
+                            </MenuItem>
+                            <MenuItem>
+                              <Link
+                                component={RouterLink}
+                                to="/admin/productlist"
+                              >
+                                <Typography>Products</Typography>
+                              </Link>
+                            </MenuItem>
+                            <MenuItem>
+                              <Link
+                                component={RouterLink}
+                                to="/admin/orderlist"
+                              >
+                                <Typography>Orders</Typography>
+                              </Link>
+                            </MenuItem>
+                          </MenuList>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </>
               )}
             </Toolbar>
           </AppBar>
