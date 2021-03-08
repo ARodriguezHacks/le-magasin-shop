@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory, useLocation } from "react-router-dom";
 import {
   Grid,
   AppBar,
@@ -36,6 +36,9 @@ const useStyles = makeStyles({
 });
 
 const Header = () => {
+  const history = useHistory();
+  let location = useLocation();
+  console.log(location);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
@@ -56,7 +59,11 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
+    if (location.pathname === "/admin/userlist") {
+      history.push("/login");
+    }
   };
+
   return (
     <header>
       <Grid container justify="center">
