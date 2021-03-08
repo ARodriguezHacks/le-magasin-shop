@@ -16,7 +16,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  TableFooter,
   TableHead,
 } from "@material-ui/core";
 import Message from "../components/Message";
