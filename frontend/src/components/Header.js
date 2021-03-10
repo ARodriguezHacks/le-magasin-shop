@@ -38,7 +38,6 @@ const useStyles = makeStyles({
 const Header = () => {
   const history = useHistory();
   let location = useLocation();
-  console.log(location);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
