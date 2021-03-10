@@ -14,15 +14,18 @@ const useStyles = makeStyles({
   },
 });
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const classes = useStyles();
+  const keyword = match.params.keyword;
+
   const dispatch = useDispatch();
+
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
-  const classes = useStyles();
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <Grid container spacing={2} className={classes.root}>

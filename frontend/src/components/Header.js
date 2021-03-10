@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink, useHistory, useLocation } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useHistory,
+  useLocation,
+  Route,
+} from "react-router-dom";
 import {
   Grid,
   AppBar,
@@ -16,6 +21,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { logout } from "../actions/userActions";
+import SearchBox from "./SearchBox";
 
 const useStyles = makeStyles({
   grow: {
@@ -72,6 +78,9 @@ const Header = () => {
               <Link component={RouterLink} to="/">
                 <Typography>Logo</Typography>
               </Link>
+              <Route
+                render={({ history }) => <SearchBox history={history} />}
+              />
               <Link component={RouterLink} to="/cart">
                 <Typography>Cart</Typography>
               </Link>
