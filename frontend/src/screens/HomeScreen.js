@@ -7,6 +7,7 @@ import Paginate from "../components/Paginate";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { listProducts } from "../actions/productActions";
+import ProductCarousel from "../components/ProductCarousel";
 
 const useStyles = makeStyles({
   root: {
@@ -32,31 +33,44 @@ const HomeScreen = ({ match }) => {
   }, [dispatch, keyword, pageNumber]);
 
   return (
-    <Grid container spacing={2} className={classes.root}>
-      <Grid container item>
-        <Typography>Latest Products</Typography>
+    <>
+      <Grid container spacing={2} className={classes.root}>
+        <Grid container item>
+          {!keyword && <ProductCarousel />}
+        </Grid>
+        <Grid container item>
+          <Typography>Latest Products</Typography>
+        </Grid>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message>{error}</Message>
+        ) : (
+          <>
+            <Grid container spacing={2}>
+              {products.map((product) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  lg={3}
+                  xl={3}
+                  key={product._id}
+                >
+                  <Product product={product} />
+                </Grid>
+              ))}
+            </Grid>
+            <Paginate
+              pages={pages}
+              page={page}
+              keyword={keyword ? keyword : ""}
+            />
+          </>
+        )}
       </Grid>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message>{error}</Message>
-      ) : (
-        <>
-          <Grid container spacing={2}>
-            {products.map((product) => (
-              <Grid item xs={12} sm={6} md={3} lg={3} xl={3} key={product._id}>
-                <Product product={product} />
-              </Grid>
-            ))}
-          </Grid>
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={keyword ? keyword : ""}
-          />
-        </>
-      )}
-    </Grid>
+    </>
   );
 };
 
