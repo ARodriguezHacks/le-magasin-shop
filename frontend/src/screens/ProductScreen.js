@@ -33,6 +33,7 @@ import Rating from "../components/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 const useStyles = makeStyles({
   root: {
@@ -104,6 +105,7 @@ const ProductScreen = ({ history, match }) => {
         <Message severity="error">{error}</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Grid container spacing={2} className={classes.root} justify="center">
             <Grid item xs={12} sm={6} md={5}>
               <CardMedia

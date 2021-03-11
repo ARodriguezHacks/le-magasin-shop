@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Product from "../components/Product";
 import Message from "../components/Message";
@@ -8,6 +9,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { listProducts } from "../actions/productActions";
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 const useStyles = makeStyles({
   root: {
@@ -25,8 +27,6 @@ const HomeScreen = ({ match }) => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, pages, page } = productList;
-  console.log(pages);
-  console.log(page);
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));
@@ -34,9 +34,10 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      <Meta />
       <Grid container spacing={2} className={classes.root}>
         <Grid container item>
-          {!keyword && <ProductCarousel />}
+          {!keyword ? <ProductCarousel /> : <Link to="/">Go Back</Link>}
         </Grid>
         <Grid container item>
           <Typography>Latest Products</Typography>
