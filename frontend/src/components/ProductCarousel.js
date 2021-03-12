@@ -50,7 +50,7 @@ const ProductCarousel = () => {
       {products.map((product) => (
         <SwiperSlide key={product._id}>
           <Card className={classes.container}>
-            <Link to="/login">
+            <Link to={`/product/${product._id}`}>
               <CardMedia
                 component="img"
                 className={classes.media}
