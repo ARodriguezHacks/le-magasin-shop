@@ -16,16 +16,12 @@ connectDB();
 
 const app = express();
 
-// if (process.env.NODE_ENV == "development") {
-//   app.use(morgan("dev"));
-// }
+if (process.env.NODE_ENV == "development") {
+  app.use(morgan("dev"));
+}
+
 app.use(express.json());
 // Piece of middleware that allows JSON data to be accepted into the body
-
-app.get("/", (req, res) => {
-  console.log(res);
-  res.send("API is running...");
-});
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -40,6 +36,18 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // __dirname points to the current directory, but is only available with CommonJS, not ES6 modules
 // Hence we mimick the behavior by using tha path module and path.resolve()
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    console.log(res);
+    res.send("API is running...");
+  });
+}
 
 app.use(notFound);
 
