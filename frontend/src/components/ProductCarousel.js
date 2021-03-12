@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardMedia, MobileStepper } from "@material-ui/core";
+import { Card, CardMedia } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SwiperCore, { Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";

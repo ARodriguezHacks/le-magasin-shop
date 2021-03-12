@@ -81,7 +81,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, order, orderId, successPay, successDeliver]);
+  }, [dispatch, order, orderId, successPay, successDeliver, history, userInfo]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
@@ -95,7 +95,7 @@ const OrderScreen = ({ match, history }) => {
   return loading ? (
     <Loader />
   ) : error ? (
-    <Message severity="warning">{error}</Message>
+    <Message severity="error">{error}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
@@ -126,7 +126,7 @@ const OrderScreen = ({ match, history }) => {
                 {order.isDelivered ? (
                   <Message>Delivered on {order.deliveredAt}</Message>
                 ) : (
-                  <Message severity="error">Not Delivered</Message>
+                  <Message severity="warning">Not Delivered</Message>
                 )}
               </ListItemText>
             </ListItem>
@@ -147,7 +147,7 @@ const OrderScreen = ({ match, history }) => {
                 {order.isPaid ? (
                   <Message>Paid on {order.paidAt}</Message>
                 ) : (
-                  <Message severity="error">Not Paid</Message>
+                  <Message severity="warning">Not Paid</Message>
                 )}
               </ListItemText>
             </ListItem>

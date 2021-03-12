@@ -18,6 +18,7 @@ import {
   Popper,
   Button,
   Grow,
+  ClickAwayListener,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { logout } from "../actions/userActions";
@@ -41,10 +42,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Header = () => {
+const Header = ({ props }) => {
+  const classes = useStyles();
   const history = useHistory();
   let location = useLocation();
-  const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -62,8 +64,21 @@ const Header = () => {
     setAdminOpen((prevOpen) => !prevOpen);
   };
 
+  const handleClose = () => {
+    if (open) {
+      setOpen(false);
+    }
+  };
+
+  const adminHandleClose = () => {
+    if (adminOpen) {
+      setAdminOpen(false);
+    }
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
+    setOpen(false);
     if (location.pathname === "/admin/userlist") {
       history.push("/login");
     }
@@ -112,16 +127,18 @@ const Header = () => {
                         }}
                       >
                         <Paper>
-                          <MenuList autoFocusItem={open} id="menu-list-grow">
-                            <MenuItem>
-                              <Link component={RouterLink} to="/profile">
-                                <Typography>Profile</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem onClick={logoutHandler}>
-                              <Typography>Logout</Typography>
-                            </MenuItem>
-                          </MenuList>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList autoFocusItem={open} id="menu-list-grow">
+                              <MenuItem onClick={handleClose}>
+                                <Link component={RouterLink} to="/profile">
+                                  <Typography>Profile</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={logoutHandler}>
+                                <Typography>Logout</Typography>
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
                         </Paper>
                       </Grow>
                     )}
@@ -160,29 +177,34 @@ const Header = () => {
                         }}
                       >
                         <Paper>
-                          <MenuList autoFocusItem={adminOpen} id="admin-menu">
-                            <MenuItem>
-                              <Link component={RouterLink} to="/admin/userlist">
-                                <Typography>Users</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem>
-                              <Link
-                                component={RouterLink}
-                                to="/admin/productlist"
-                              >
-                                <Typography>Products</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem>
-                              <Link
-                                component={RouterLink}
-                                to="/admin/orderlist"
-                              >
-                                <Typography>Orders</Typography>
-                              </Link>
-                            </MenuItem>
-                          </MenuList>
+                          <ClickAwayListener onClickAway={adminHandleClose}>
+                            <MenuList autoFocusItem={adminOpen} id="admin-menu">
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/userlist"
+                                >
+                                  <Typography>Users</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/productlist"
+                                >
+                                  <Typography>Products</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/orderlist"
+                                >
+                                  <Typography>Orders</Typography>
+                                </Link>
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
                         </Paper>
                       </Grow>
                     )}
