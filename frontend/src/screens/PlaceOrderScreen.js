@@ -5,6 +5,7 @@ import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
 import FormContainer from "../components/FormContainer";
 import { createOrder } from "../actions/orderActions";
+import { resetCart } from "../actions/cartActions";
 import {
   Grid,
   List,
@@ -61,6 +62,7 @@ const PlaceOrderScreen = () => {
         totalPrice: cart.totalPrice,
       })
     );
+    dispatch(resetCart());
   };
 
   return (

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+// const cartSchema = mongoose.Schema({ cart: String });
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -21,9 +23,12 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    // cart: [cartSchema],
   },
   { timestamps: true }
 );
+
+// const Cart = mongoose.model('Cart', cartSchema)
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);

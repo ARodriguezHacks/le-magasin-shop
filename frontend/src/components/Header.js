@@ -79,7 +79,7 @@ const Header = ({ props }) => {
   const logoutHandler = () => {
     dispatch(logout());
     setOpen(false);
-    if (location.pathname === "/admin/userlist") {
+    if (location.pathname !== "/") {
       history.push("/login");
     }
   };
