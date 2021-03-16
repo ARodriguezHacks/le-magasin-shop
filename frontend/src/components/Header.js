@@ -19,10 +19,12 @@ import {
   Button,
   Grow,
   ClickAwayListener,
+  Container,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { logout } from "../actions/userActions";
 import SearchBox from "./SearchBox";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
   grow: {
@@ -31,6 +33,14 @@ const useStyles = makeStyles({
     "& .MuiOutlinedInput-root": {
       borderRadius: "25px",
     },
+  },
+  logo: {
+    fontFamily: "'Redressed', cursive",
+  },
+
+  link: {
+    display: "flex",
+    alignItems: "center",
   },
 
   nav: {
@@ -90,15 +100,20 @@ const Header = ({ props }) => {
         <Grid container item justify="center">
           <AppBar position="static" className={classes.nav}>
             <Toolbar style={{ justifyContent: "center" }}>
-              <Link component={RouterLink} to="/">
-                <Typography>Logo</Typography>
+              <Link component={RouterLink} to="/" className={classes.link}>
+                <img src="../../images/logo.png" alt="Le Magasin Logo" />
+                <Typography variant="h5" className={classes.logo}>
+                  Le Magasin Shop
+                </Typography>
               </Link>
               <Route
                 render={({ history }) => <SearchBox history={history} />}
               />
-              <Link component={RouterLink} to="/cart">
-                <Typography>Cart</Typography>
-              </Link>
+              {userInfo && (
+                <Link component={RouterLink} to="/cart">
+                  <Typography>Cart</Typography>
+                </Link>
+              )}
               {userInfo ? (
                 <>
                   <Button
