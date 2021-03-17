@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { logout } from "../actions/userActions";
 import SearchBox from "./SearchBox";
 import {
@@ -77,12 +78,28 @@ const MobileNavigation = ({ drawer }) => {
   const handleClose = () => {
     if (open) {
       setOpen(false);
-      setOpenDrawer(false);
     }
   };
 
   const adminHandleClose = () => {
     if (adminOpen) {
+      setAdminOpen(false);
+    }
+  };
+
+  const handleDrawer = () => {
+    if (open || adminOpen) {
+      setOpenDrawer(true);
+    } else {
+      setOpenDrawer(false);
+    }
+  };
+
+  const selectDropdownItem = () => {
+    if (open) {
+      setOpen(false);
+      setOpenDrawer(false);
+    } else if (adminOpen) {
       setAdminOpen(false);
       setOpenDrawer(false);
     }
@@ -90,7 +107,7 @@ const MobileNavigation = ({ drawer }) => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    setOpen(false);
+    setOpenDrawer(false);
     if (location.pathname !== "/") {
       history.push("/login");
     }
@@ -105,9 +122,9 @@ const MobileNavigation = ({ drawer }) => {
       <Drawer
         anchor="left"
         open={openDrawer}
-        className={open ? classes.drawer : null}
+        className={openDrawer ? classes.drawer : null}
       >
-        <ClickAwayListener onClickAway={() => setOpenDrawer(false)}>
+        <ClickAwayListener onClickAway={handleDrawer}>
           <List>
             <ListItem>
               <Typography variant="h5" className={classes.logo}>
@@ -124,7 +141,9 @@ const MobileNavigation = ({ drawer }) => {
             {userInfo && (
               <ListItem onClick={() => setOpenDrawer(false)}>
                 <Link component={RouterLink} to="/cart">
-                  <Typography>Cart</Typography>
+                  <Typography>
+                    <ShoppingCartIcon />
+                  </Typography>
                 </Link>
               </ListItem>
             )}
@@ -148,17 +167,12 @@ const MobileNavigation = ({ drawer }) => {
                     transition
                     disablePortal
                   >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        // style={{
-                        //   transformOrigin: "center top",
-                        // }}
-                      >
+                    {({ TransitionProps }) => (
+                      <Grow {...TransitionProps}>
                         <Paper>
                           <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow">
-                              <MenuItem onClick={handleClose}>
+                              <MenuItem onClick={selectDropdownItem}>
                                 <Link component={RouterLink} to="/profile">
                                   <Typography>Profile</Typography>
                                 </Link>
@@ -174,7 +188,11 @@ const MobileNavigation = ({ drawer }) => {
                   </Popper>
                 </>
               ) : (
-                <Link component={RouterLink} to="/login">
+                <Link
+                  component={RouterLink}
+                  to="/login"
+                  onClick={() => setOpenDrawer(false)}
+                >
                   <Typography>Log In</Typography>
                 </Link>
               )}
@@ -199,17 +217,12 @@ const MobileNavigation = ({ drawer }) => {
                     transition
                     disablePortal
                   >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        // style={{
-                        //   transformOrigin: "center top",
-                        // }}
-                      >
+                    {({ TransitionProps }) => (
+                      <Grow {...TransitionProps}>
                         <Paper>
                           <ClickAwayListener onClickAway={adminHandleClose}>
                             <MenuList autoFocusItem={adminOpen} id="admin-menu">
-                              <MenuItem onClick={adminHandleClose}>
+                              <MenuItem onClick={selectDropdownItem}>
                                 <Link
                                   component={RouterLink}
                                   to="/admin/userlist"
@@ -217,7 +230,7 @@ const MobileNavigation = ({ drawer }) => {
                                   <Typography>Users</Typography>
                                 </Link>
                               </MenuItem>
-                              <MenuItem onClick={adminHandleClose}>
+                              <MenuItem onClick={selectDropdownItem}>
                                 <Link
                                   component={RouterLink}
                                   to="/admin/productlist"
@@ -225,7 +238,7 @@ const MobileNavigation = ({ drawer }) => {
                                   <Typography>Products</Typography>
                                 </Link>
                               </MenuItem>
-                              <MenuItem onClick={adminHandleClose}>
+                              <MenuItem onClick={selectDropdownItem}>
                                 <Link
                                   component={RouterLink}
                                   to="/admin/orderlist"

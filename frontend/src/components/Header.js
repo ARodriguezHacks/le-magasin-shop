@@ -20,12 +20,12 @@ import {
   Grow,
   ClickAwayListener,
 } from "@material-ui/core";
-
 import { useTheme, makeStyles } from "@material-ui/core/styles";
-import { logout } from "../actions/userActions";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import SearchBox from "./SearchBox";
 import MobileNavigation from "./MobileNavigation";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { logout } from "../actions/userActions";
 
 const useStyles = makeStyles({
   grow: {
@@ -131,7 +131,9 @@ const Header = () => {
                   />
                   {userInfo && (
                     <Link component={RouterLink} to="/cart">
-                      <Typography>Cart</Typography>
+                      <Typography>
+                        <ShoppingCartIcon />
+                      </Typography>
                     </Link>
                   )}
                   {userInfo ? (

@@ -91,7 +91,7 @@ const ProductScreen = ({ history, match }) => {
   };
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container>
       <Grid container item spacing={2} justify="center">
         <Grid item xs={12} sm={9}>
           <Typography>
@@ -210,7 +210,9 @@ const ProductScreen = ({ history, match }) => {
                 <ListItem>
                   <Grid container>
                     <Grid item xs={12}>
-                      <h2>Write a Customer Review</h2>
+                      <Typography variant="h5">
+                        Write a Customer Review
+                      </Typography>
                       {errorProductReview && (
                         <Message severity="error">{errorProductReview}</Message>
                       )}

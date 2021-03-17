@@ -6,20 +6,11 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 import { Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { listProducts } from "../actions/productActions";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: "100%",
-    margin: "2rem 0",
-  },
-});
-
 const HomeScreen = ({ match }) => {
-  const classes = useStyles();
   const keyword = match.params.keyword;
   const pageNumber = match.params.pageNumber || 1;
 
@@ -35,7 +26,7 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
-      <Grid container spacing={2} className={classes.root}>
+      <Grid container spacing={2}>
         <Grid container item>
           {!keyword ? <ProductCarousel /> : <Link to="/">Go Back</Link>}
         </Grid>

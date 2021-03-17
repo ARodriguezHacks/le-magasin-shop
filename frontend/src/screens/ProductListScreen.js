@@ -12,6 +12,7 @@ import {
   TableBody,
   TableHead,
   Button,
+  Typography,
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -85,7 +86,7 @@ const ProductListScreen = ({ history, match }) => {
     <>
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
-          <h1>Products</h1>
+          <Typography variant="h4">Products</Typography>
         </Grid>
         <Grid item>
           <Button

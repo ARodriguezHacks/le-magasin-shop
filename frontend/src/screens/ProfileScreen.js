@@ -17,6 +17,7 @@ import {
   TableContainer,
   TableRow,
   TableHead,
+  Typography,
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -82,7 +83,7 @@ const ProfileScreen = ({ location }) => {
   return (
     <Grid container spacing={2}>
       <Grid item md={3}>
-        <h2>User Profile</h2>
+        <Typography variant="h5">User Profile</Typography>
         {message && <Message severity="warning">{message}</Message>}
         {error && <Message severity="warning">{error}</Message>}
         {success && <Message>Profile Updated</Message>}
@@ -150,7 +151,7 @@ const ProfileScreen = ({ location }) => {
         </form>
       </Grid>
       <Grid item md={9}>
-        <h2>My Orders</h2>
+        <Typography>My Orders</Typography>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -173,7 +174,7 @@ const ProfileScreen = ({ location }) => {
                   <TableRow key={order._id}>
                     <TableCell>{order._id}</TableCell>
                     <TableCell>{order.createdAt.substring(0, 10)}</TableCell>
-                    <TableCell>{order.totalPrice}</TableCell>
+                    <TableCell>${order.totalPrice}</TableCell>
                     <TableCell>
                       {order.isPaid ? (
                         order.paidAt.substring(0, 10)

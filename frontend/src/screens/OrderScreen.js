@@ -97,7 +97,7 @@ const OrderScreen = ({ match, history }) => {
     <Message severity="error">{error}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
+      <Typography variant="h4">Order {order._id}</Typography>
 
       <Grid container spacing={2}>
         <Grid item md={8}>
@@ -179,10 +179,16 @@ const OrderScreen = ({ match, history }) => {
                           <Link to={`/product/${item.product}`} />
                         </Grid>
                         <Grid item md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          <Typography>
+                            {item.qty} x ${item.price} = $
+                            {item.qty * item.price}
+                          </Typography>
                         </Grid>
                         <Grid item md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          <Typography>
+                            {item.qty} x ${item.price} = $
+                            {item.qty * item.price}
+                          </Typography>
                         </Grid>
                       </Grid>
                     </ListItem>

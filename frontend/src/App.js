@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
@@ -19,12 +20,21 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 
+const useStyles = makeStyles({
+  root: {
+    maxWidth: "100%",
+    margin: "2rem 0",
+  },
+});
+
 const App = () => {
+  const classes = useStyles();
+
   return (
     <Router>
       <Header />
       <Container>
-        <main>
+        <main className={classes.root}>
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />

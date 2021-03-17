@@ -9,6 +9,7 @@ import {
   FormGroup,
   RadioGroup,
   Radio,
+  Typography,
 } from "@material-ui/core";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -40,7 +41,7 @@ const PaymentScreen = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
-      <h1>Payment Method</h1>
+      <Typography variant="h4">Payment Method</Typography>
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <FormControl>
@@ -56,13 +57,6 @@ const PaymentScreen = () => {
                 id="PayPal"
                 name="paymentMethod"
                 value="PayPal"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                label="Stripe"
-                id="Stripe"
-                name="paymentMethod"
-                value="Stripe"
               />
             </RadioGroup>
           </FormControl>

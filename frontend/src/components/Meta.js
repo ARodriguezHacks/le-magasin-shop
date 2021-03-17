@@ -11,9 +11,9 @@ const Meta = ({ title, description, keywords }) => {
   );
 };
 Meta.defaultProps = {
-  title: "Welcome to Maison du Stylo",
-  description: "We sell quality and practical fashion goods",
-  keywords: "fashion, accessories, jewelry, home goods",
+  title: "Welcome to Le Magasin Shop!",
+  description: "One stop shop for quality and practical everyday goods",
+  keywords: "electronics, accessories, jewelry, home goods",
 };
 
 export default Meta;

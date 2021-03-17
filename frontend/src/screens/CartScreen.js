@@ -12,6 +12,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Message from "../components/Message";
@@ -49,9 +50,9 @@ function CartScreen({ match, location, history }) {
   };
 
   return (
-    <Grid container>
-      <Grid item md={8}>
-        <h1>Shopping Cart</h1>
+    <Grid container spacing={2}>
+      <Grid item sm={8}>
+        <Typography variant="h5">Shopping Cart</Typography>
         {cartItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to="/">Go back</Link>
@@ -101,28 +102,30 @@ function CartScreen({ match, location, history }) {
           </List>
         )}
       </Grid>
-      <Grid item md={4}>
+      <Grid item sm={4}>
         <Card>
           <List>
             <ListItem>
-              <h2>
+              <Typography variant="h6">
                 Subtotal (
                 {cartItems.reduce(
                   (acc, currentItem) => acc + currentItem.qty,
                   0
                 )}
                 ) items
-              </h2>
+              </Typography>
             </ListItem>
             <ListItem>
-              $
-              {cartItems
-                .reduce(
-                  (acc, currentItem) =>
-                    acc + currentItem.qty * currentItem.price,
-                  0
-                )
-                .toFixed(2)}
+              <Typography>
+                $
+                {cartItems
+                  .reduce(
+                    (acc, currentItem) =>
+                      acc + currentItem.qty * currentItem.price,
+                    0
+                  )
+                  .toFixed(2)}
+              </Typography>
             </ListItem>
             <ListItem>
               <Button

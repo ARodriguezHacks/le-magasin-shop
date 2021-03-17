@@ -9,6 +9,7 @@ import {
   TableBody,
   TableHead,
   Button,
+  Typography,
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -33,7 +34,7 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <Typography variant="h4">Orders</Typography>
       {loading ? (
         <Loader />
       ) : error ? (

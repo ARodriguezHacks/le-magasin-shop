@@ -10,6 +10,7 @@ import {
   Button,
   FormGroup,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -51,7 +52,7 @@ const LoginScreen = ({ location }) => {
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <Typography variant="h5">Sign In</Typography>
       {error && <Message>{error}</Message>}
       {loading && <Loader />}
       <form onSubmit={submitHandler}>
@@ -86,12 +87,15 @@ const LoginScreen = ({ location }) => {
           <Button type="submit">Sign In</Button>
           <Grid container>
             <Grid item>
-              New Customer?
-              <Link
-                to={redirect ? `/register?redirect=${redirect}` : "/register"}
-              >
-                Register
-              </Link>
+              <Typography>
+                New Customer?
+                <Link
+                  to={redirect ? `/register?redirect=${redirect}` : "/register"}
+                >
+                  {" "}
+                  Register
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </Paper>

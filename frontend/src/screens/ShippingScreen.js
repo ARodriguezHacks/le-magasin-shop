@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   FormGroup,
+  Typography,
 } from "@material-ui/core";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
@@ -33,7 +34,7 @@ const ShippingScreen = () => {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 />
-      <h1>Shipping</h1>
+      <Typography variant="h4">Shipping</Typography>
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <FormControl>
