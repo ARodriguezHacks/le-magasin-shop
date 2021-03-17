@@ -33,6 +33,13 @@ const useStyles = makeStyles({
       borderRadius: "25px",
     },
   },
+
+  drawer: {
+    "& .MuiDrawer-paper": {
+      overflowY: "visible",
+    },
+  },
+
   logo: {
     fontFamily: "'Redressed', cursive",
   },
@@ -48,9 +55,10 @@ const MobileNavigation = ({ drawer }) => {
   const history = useHistory();
   let location = useLocation();
 
-  const [open, setOpen] = useState(false);
-  const [adminOpen, setAdminOpen] = useState(false);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [open, setOpen] = useState(false); // User drop down menu
+  const [adminOpen, setAdminOpen] = useState(false); // Admin drop down menu
+  const [openDrawer, setOpenDrawer] = useState(false); // Sidemenu or Drawer
+  const [itemSelect, setItemSelect] = useState(false);
 
   const anchorRef = useRef(null);
   const adminAnchorRef = useRef(null);
@@ -70,12 +78,14 @@ const MobileNavigation = ({ drawer }) => {
   const handleClose = () => {
     if (open) {
       setOpen(false);
+      setOpenDrawer(false);
     }
   };
 
   const adminHandleClose = () => {
     if (adminOpen) {
       setAdminOpen(false);
+      setOpenDrawer(false);
     }
   };
 
@@ -96,144 +106,145 @@ const MobileNavigation = ({ drawer }) => {
       <Drawer
         anchor="left"
         open={openDrawer}
-        onBlur={() => setOpenDrawer(false)}
+        className={open ? classes.drawer : null}
       >
-        <List>
-          <ListItem>
-            <Typography variant="h5" className={classes.logo}>
-              Le Magasin Shop
-            </Typography>
-          </ListItem>
-
-          <ListItem>
-            <Link component={RouterLink} to="/" className={classes.link}>
-              <img src="../../images/logo.png" alt="Le Magasin Logo" />
-            </Link>
-          </ListItem>
-
-          {userInfo && (
+        <ClickAwayListener onClickAway={() => setOpenDrawer(false)}>
+          <List>
             <ListItem>
-              <Link component={RouterLink} to="/cart">
-                <Typography>Cart</Typography>
+              <Typography variant="h5" className={classes.logo}>
+                Le Magasin Shop
+              </Typography>
+            </ListItem>
+
+            <ListItem onClick={() => setOpenDrawer(false)}>
+              <Link component={RouterLink} to="/" className={classes.link}>
+                <img src="../../images/logo.png" alt="Le Magasin Logo" />
               </Link>
             </ListItem>
-          )}
 
-          <ListItem>
-            {userInfo ? (
-              <>
-                <Button
-                  ref={anchorRef}
-                  aria-controls={open ? "menu-list-grow" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleToggle}
-                >
-                  {userInfo.name}
-                </Button>
-                <Popper
-                  open={open}
-                  anchorEl={anchorRef.current}
-                  role={undefined}
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom"
-                            ? "center top"
-                            : "center bottom",
-                      }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                          <MenuList autoFocusItem={open} id="menu-list-grow">
-                            <MenuItem onClick={handleClose}>
-                              <Link component={RouterLink} to="/profile">
-                                <Typography>Profile</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem onClick={logoutHandler}>
-                              <Typography>Logout</Typography>
-                            </MenuItem>
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
-              </>
-            ) : (
-              <Link component={RouterLink} to="/login">
-                <Typography>Log In</Typography>
-              </Link>
+            {userInfo && (
+              <ListItem onClick={() => setOpenDrawer(false)}>
+                <Link component={RouterLink} to="/cart">
+                  <Typography>Cart</Typography>
+                </Link>
+              </ListItem>
             )}
-          </ListItem>
 
-          <ListItem>
-            {userInfo && userInfo.isAdmin && (
-              <>
-                <Button
-                  ref={adminAnchorRef}
-                  aria-controls={adminOpen ? "admin-menu" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleAdminToggle}
-                >
-                  Admin
-                </Button>
-                <Popper
-                  open={adminOpen}
-                  anchorEl={adminAnchorRef.current}
-                  role={undefined}
-                  transition
-                  disablePortal
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      style={{
-                        transformOrigin:
-                          placement === "bottom"
-                            ? "center top"
-                            : "center bottom",
-                      }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={adminHandleClose}>
-                          <MenuList autoFocusItem={adminOpen} id="admin-menu">
-                            <MenuItem onClick={adminHandleClose}>
-                              <Link component={RouterLink} to="/admin/userlist">
-                                <Typography>Users</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem onClick={adminHandleClose}>
-                              <Link
-                                component={RouterLink}
-                                to="/admin/productlist"
-                              >
-                                <Typography>Products</Typography>
-                              </Link>
-                            </MenuItem>
-                            <MenuItem onClick={adminHandleClose}>
-                              <Link
-                                component={RouterLink}
-                                to="/admin/orderlist"
-                              >
-                                <Typography>Orders</Typography>
-                              </Link>
-                            </MenuItem>
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
-              </>
-            )}
-          </ListItem>
-        </List>
+            <ListItem>
+              {userInfo ? (
+                <>
+                  <Button
+                    ref={anchorRef}
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    {userInfo.name}
+                  </Button>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="right-start"
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        // style={{
+                        //   transformOrigin: "center top",
+                        // }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList autoFocusItem={open} id="menu-list-grow">
+                              <MenuItem onClick={handleClose}>
+                                <Link component={RouterLink} to="/profile">
+                                  <Typography>Profile</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={logoutHandler}>
+                                <Typography>Logout</Typography>
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </>
+              ) : (
+                <Link component={RouterLink} to="/login">
+                  <Typography>Log In</Typography>
+                </Link>
+              )}
+            </ListItem>
+
+            <ListItem>
+              {userInfo && userInfo.isAdmin && (
+                <>
+                  <Button
+                    ref={adminAnchorRef}
+                    aria-controls={adminOpen ? "admin-menu" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleAdminToggle}
+                  >
+                    Admin
+                  </Button>
+                  <Popper
+                    open={adminOpen}
+                    anchorEl={adminAnchorRef.current}
+                    role={undefined}
+                    placement="right-start"
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        // style={{
+                        //   transformOrigin: "center top",
+                        // }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={adminHandleClose}>
+                            <MenuList autoFocusItem={adminOpen} id="admin-menu">
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/userlist"
+                                >
+                                  <Typography>Users</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/productlist"
+                                >
+                                  <Typography>Products</Typography>
+                                </Link>
+                              </MenuItem>
+                              <MenuItem onClick={adminHandleClose}>
+                                <Link
+                                  component={RouterLink}
+                                  to="/admin/orderlist"
+                                >
+                                  <Typography>Orders</Typography>
+                                </Link>
+                              </MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </>
+              )}
+            </ListItem>
+          </List>
+        </ClickAwayListener>
       </Drawer>
     </>
   );
