@@ -58,7 +58,6 @@ const MobileNavigation = ({ drawer }) => {
   const [open, setOpen] = useState(false); // User drop down menu
   const [adminOpen, setAdminOpen] = useState(false); // Admin drop down menu
   const [openDrawer, setOpenDrawer] = useState(false); // Sidemenu or Drawer
-  const [itemSelect, setItemSelect] = useState(false);
 
   const anchorRef = useRef(null);
   const adminAnchorRef = useRef(null);

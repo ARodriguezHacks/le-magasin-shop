@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 
 const Footer = () => {
   const classes = useStyles();
+
   return (
     <footer
       style={{

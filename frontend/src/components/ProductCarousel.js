@@ -39,7 +39,6 @@ const ProductCarousel = () => {
   ) : error ? (
     <Message severity="error">{error}</Message>
   ) : (
-    // <MobileStepper steps={3} position="static"></MobileStepper>
     <Swiper
       pagination={{ clickable: true, dynamicBullets: true }}
       autoplay={{ delay: 5000 }}
