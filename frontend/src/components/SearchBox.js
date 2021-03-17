@@ -1,40 +1,55 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { InputBase, IconButton } from "@material-ui/core";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles({
   form: {
     display: "flex",
+    flex: "1 0 50%",
     alignItems: "center",
+    border: "1px solid black",
+    padding: "0 0.25rem",
+    borderRadius: "25px",
+    maxWidth: (props) => props.width,
+  },
+  textField: {
+    flex: "1 0 50%",
   },
   button: {
-    backgroundColor: "pink",
+    padding: "5px",
   },
 });
 
-const SearchBox = ({ history }) => {
-  const classes = useStyles();
+const SearchBox = (props) => {
+  // console.log(props);
+  const classes = useStyles(props);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+
   const [keyword, setKeyword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      history.push(`/search/${keyword}`);
+      props.history.push(`/search/${keyword}`);
     } else {
-      history.push("/");
+      props.history.push("/");
     }
   };
+
   return (
     <form onSubmit={submitHandler} className={classes.form}>
-      <TextField
-        label="Search"
+      <InputBase
         type="search"
-        variant="outlined"
+        placeholder="Search products"
         onChange={(e) => setKeyword(e.target.value)}
+        className={classes.textField}
       />
-      <Button type="submit" variant="contained" className={classes.button}>
-        Search
-      </Button>
+      <IconButton type="submit" className={classes.button}>
+        <SearchIcon />
+      </IconButton>
     </form>
   );
 };
