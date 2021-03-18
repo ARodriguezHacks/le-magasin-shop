@@ -61,15 +61,17 @@ function CartScreen({ match, location, history }) {
           <List>
             {cartItems.map((item) => (
               <ListItem key={item.product}>
-                <Grid container>
+                <Grid container spacing={2}>
                   <Grid item md={2}>
                     <CardMedia className={classes.media} image={item.image} />
                   </Grid>
                   <Grid item md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    <Link to={`/product/${item.product}`}>
+                      <Typography>{item.name}</Typography>
+                    </Link>
                   </Grid>
                   <Grid item md={2}>
-                    ${item.price}
+                    <Typography>${item.price}</Typography>
                   </Grid>
                   <Grid item md={2}>
                     <FormControl>

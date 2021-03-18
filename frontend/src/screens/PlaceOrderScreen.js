@@ -95,7 +95,7 @@ const PlaceOrderScreen = () => {
             </ListItem>
             <ListItem divider>
               <ListItemText>
-                <strong>Method:</strong>
+                <strong>Method: </strong>
                 {cart.paymentMethod}
               </ListItemText>
             </ListItem>
@@ -128,10 +128,16 @@ const PlaceOrderScreen = () => {
                           <Link to={`/product/${item.product}`} />
                         </Grid>
                         <Grid item md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          <Typography>
+                            {item.qty} x ${item.price} = $
+                            {item.qty * item.price}
+                          </Typography>
                         </Grid>
                         <Grid item md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          <Typography>
+                            {item.qty} x ${item.price} = $
+                            {item.qty * item.price}
+                          </Typography>
                         </Grid>
                       </Grid>
                     </ListItem>
