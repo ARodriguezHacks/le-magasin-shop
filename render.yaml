@@ -7,7 +7,7 @@ services:
     env: docker # valid values: https://render.com/docs/yaml-spec#environment
     dockerfilePath: Dockerfile.render
     plan: free # optional; defaults to starter
-    numInstances: 0
+    numInstances: 1
     envVars:
       - key: MONGO_URI # Imported from Heroku app
         value: mongodb+srv://angie_rod_91:gardentrail@angierdeveloper.ubjra.mongodb.net/videogameecommerce?retryWrites&#x3D;true&amp;w&#x3D;majority
@@ -17,4 +17,3 @@ services:
         value: AXp6NWSPmYO2dD42wl5OqCKvH8X81oRr9z8xq-PKHQ2otJMk80jowTKqDl_hsMah4OhlBrtKLxICYk1M
       - key: PORT # Imported from Heroku app
         value: 5000
-
