@@ -84,7 +84,7 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
-      <Grid container justify="space-between" alignItems="center">
+      <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="h4">Products</Typography>
         </Grid>

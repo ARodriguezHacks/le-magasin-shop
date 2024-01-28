@@ -92,7 +92,7 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <Grid container>
-      <Grid container item spacing={2} justify="center">
+      <Grid container item spacing={2} justifyContent="center">
         <Grid item xs={12} sm={9}>
           <Typography>
             <Link to="/">Go Back</Link>
