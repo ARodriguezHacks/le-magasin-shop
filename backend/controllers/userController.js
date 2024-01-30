@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
+import generateToken from '../utils/generateToken.js';
 
 // @desc    Auth user & get token
 // @route   POST /api/user/login
@@ -12,12 +12,14 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id)
+
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      // token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -46,18 +48,29 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    generateToken(res, user._id)
+
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      // token: generateToken(user._id),
     });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
   }
 });
+
+const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date()
+  })
+
+  res.status(200).json({ message: "Logged out successfully"})
+})
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -71,7 +84,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      // cart: user.cart,
     });
   } else {
     res.status(404);
@@ -99,7 +111,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
-      token: generateToken(updatedUser._id),
+      // token: generateToken(updatedUser._id),
     });
   } else {
     res.status(404);
@@ -171,6 +183,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  logoutUser,
   registerUser,
   getUserProfile,
   updateUserProfile,
