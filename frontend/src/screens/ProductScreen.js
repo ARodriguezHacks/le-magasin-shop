@@ -92,32 +92,32 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <Grid container>
-      <Grid container item spacing={2} justifyContent="center">
-        <Grid item xs={12} sm={9}>
+      <Grid container item spacing={ 2 } justifyContent="center">
+        <Grid item xs={ 12 } sm={ 9 }>
           <Typography>
             <Link to="/">Go Back</Link>
           </Typography>
         </Grid>
       </Grid>
-      {loading ? (
+      { loading ? (
         <Loader />
       ) : error ? (
-        <Message severity="error">{error}</Message>
+        <Message severity="error">{ error }</Message>
       ) : (
         <>
-          <Meta title={product.name} />
-          <Grid container spacing={2} className={classes.root} justify="center">
-            <Grid item xs={12} sm={6} md={5}>
+          <Meta title={ product.name } />
+          <Grid container spacing={ 2 } className={ classes.root } justify="center">
+            <Grid item xs={ 12 } sm={ 6 } md={ 5 }>
               <CardMedia
-                className={classes.media}
-                image={product.image}
+                className={ classes.media }
+                image={ product.image }
                 component="img"
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <CardContent className={classes.content}>
+            <Grid item xs={ 12 } sm={ 6 } md={ 3 }>
+              <CardContent className={ classes.content }>
                 <Typography variant="h6" color="textSecondary">
-                  {product.name}
+                  { product.name }
                 </Typography>
                 <Typography
                   variant="body2"
@@ -125,30 +125,30 @@ const ProductScreen = ({ history, match }) => {
                   component="div"
                 >
                   <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
+                    value={ product.rating }
+                    text={ `${product.numReviews} reviews` }
                   />
                 </Typography>
-                <Typography>{product.description}</Typography>
+                <Typography>{ product.description }</Typography>
               </CardContent>
             </Grid>
-            <Grid item xs={12} sm={10} md={3}>
-              <TableContainer component={Paper}>
+            <Grid item xs={ 12 } sm={ 10 } md={ 3 }>
+              <TableContainer component={ Paper }>
                 <Table>
                   <TableBody>
                     <TableRow>
                       <TableCell>Price:</TableCell>
-                      <TableCell>${product.price}</TableCell>
+                      <TableCell>${ product.price }</TableCell>
                     </TableRow>
 
                     <TableRow>
                       <TableCell>Status:</TableCell>
                       <TableCell>
-                        {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                        { product.countInStock > 0 ? "In Stock" : "Out Of Stock" }
                       </TableCell>
                     </TableRow>
 
-                    {product.countInStock > 0 && (
+                    { product.countInStock > 0 && (
                       <TableRow>
                         <TableCell>Qty</TableCell>
                         <TableCell>
@@ -156,21 +156,21 @@ const ProductScreen = ({ history, match }) => {
                             <InputLabel id="qty">Qty</InputLabel>
                             <Select
                               labelId="qty"
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
+                              value={ qty }
+                              onChange={ (e) => setQty(e.target.value) }
                             >
-                              {[...Array(product.countInStock).keys()].map(
+                              { [...Array(product.countInStock).keys()].map(
                                 (x) => (
-                                  <MenuItem key={x + 1} value={x + 1}>
-                                    {x + 1}
+                                  <MenuItem key={ x + 1 } value={ x + 1 }>
+                                    { x + 1 }
                                   </MenuItem>
                                 )
-                              )}
+                              ) }
                             </Select>
                           </FormControl>
                         </TableCell>
                       </TableRow>
-                    )}
+                    ) }
                   </TableBody>
                   <TableFooter>
                     <TableRow variant="footer">
@@ -178,7 +178,7 @@ const ProductScreen = ({ history, match }) => {
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={addToCartHandler}
+                          onClick={ addToCartHandler }
                         >
                           Add to Cart
                         </Button>
@@ -189,48 +189,48 @@ const ProductScreen = ({ history, match }) => {
               </TableContainer>
             </Grid>
           </Grid>
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
+          <Grid container spacing={ 4 }>
+            <Grid item xs={ 12 } sm={ 6 }>
               <Typography variant="h5">Reviews</Typography>
 
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              { product.reviews.length === 0 && <Message>No Reviews</Message> }
               <List>
-                {product.reviews.map((review) => (
-                  <ListItem key={review._id} divider>
+                { product.reviews.map((review) => (
+                  <ListItem key={ review._id } divider>
                     <ListItemText>
-                      <Typography variant="subtitle2">{review.name}</Typography>
-                      <Rating value={review.rating} />
+                      <Typography variant="subtitle2">{ review.name }</Typography>
+                      <Rating value={ review.rating } />
                       <Typography variant="body1">
-                        {review.createdAt.substring(0, 10)}
+                        { review.createdAt.substring(0, 10) }
                       </Typography>
-                      <Typography variant="body1">{review.comment}</Typography>
+                      <Typography variant="body1">{ review.comment }</Typography>
                     </ListItemText>
                   </ListItem>
-                ))}
+                )) }
                 <ListItem>
                   <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={ 12 }>
                       <Typography variant="h5">
                         Write a Customer Review
                       </Typography>
-                      {errorProductReview && (
-                        <Message severity="error">{errorProductReview}</Message>
-                      )}
-                      {userInfo ? (
-                        <form onSubmit={submitHandler}>
+                      { errorProductReview && (
+                        <Message severity="error">{ errorProductReview }</Message>
+                      ) }
+                      { userInfo ? (
+                        <form onSubmit={ submitHandler }>
                           <FormGroup>
                             <FormControl variant="filled">
                               <InputLabel id="rating">Rating</InputLabel>
                               <Select
                                 labelId="rating"
-                                value={rating}
-                                onChange={(e) => setRating(e.target.value)}
+                                value={ rating }
+                                onChange={ (e) => setRating(e.target.value) }
                               >
-                                <MenuItem value={1}>1 - Poor</MenuItem>
-                                <MenuItem value={2}>2 - Fair</MenuItem>
-                                <MenuItem value={3}>3 - Good</MenuItem>
-                                <MenuItem value={4}>4 - Very Good</MenuItem>
-                                <MenuItem value={5}>5 - Excellent</MenuItem>
+                                <MenuItem value={ 1 }>1 - Poor</MenuItem>
+                                <MenuItem value={ 2 }>2 - Fair</MenuItem>
+                                <MenuItem value={ 3 }>3 - Good</MenuItem>
+                                <MenuItem value={ 4 }>4 - Very Good</MenuItem>
+                                <MenuItem value={ 5 }>5 - Excellent</MenuItem>
                               </Select>
                             </FormControl>
                           </FormGroup>
@@ -239,9 +239,9 @@ const ProductScreen = ({ history, match }) => {
                               id="comment"
                               label="Comment"
                               placeholder="Placeholder"
-                              value={comment}
-                              rows={4}
-                              onChange={(e) => setComment(e.target.value)}
+                              value={ comment }
+                              minRows={ 4 }
+                              onChange={ (e) => setComment(e.target.value) }
                               multiline
                               variant="filled"
                             />
@@ -255,7 +255,7 @@ const ProductScreen = ({ history, match }) => {
                           Please <Link to="/login">sign in</Link> to write a
                           review
                         </Message>
-                      )}
+                      ) }
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -263,7 +263,7 @@ const ProductScreen = ({ history, match }) => {
             </Grid>
           </Grid>
         </>
-      )}
+      ) }
     </Grid>
   );
 };
