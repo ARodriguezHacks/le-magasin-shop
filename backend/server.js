@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import cookieParser from 'cookie-parser';
 import colors from "colors";
 import morgan from "morgan";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -21,7 +22,11 @@ if (process.env.NODE_ENV == "development") {
 }
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true}))
 // Piece of middleware that allows JSON data to be accepted into the body
+
+// Cookie parser middleware
+app.use(cookieParser())
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);

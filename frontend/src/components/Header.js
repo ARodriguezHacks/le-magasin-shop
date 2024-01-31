@@ -110,8 +110,8 @@ const Header = () => {
 
   return (
     <header>
-      <Grid container justify="center">
-        <Grid container item justify="center">
+      <Grid container justifyContent="center">
+        <Grid container item justifyContent="center">
           <AppBar position="static" className={classes.nav}>
             <Toolbar style={{ justifyContent: "center" }}>
               {matches ? (
