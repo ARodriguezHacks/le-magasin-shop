@@ -44,7 +44,7 @@ JWT authentication (JSON Web Tokens)
 
 ## Project Status:
 
-Currently hosted on [Heroku](https://lemagasinshop.herokuapp.com/)
+Currently hosted on [Render](https://le-magasin-shop.onrender.com/)
 
 Plans to add the following features:
 
